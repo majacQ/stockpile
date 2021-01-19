@@ -1,4 +1,5 @@
 from app.objects.c_obfuscator import Obfuscator
+from app.objects.c_data_encoder import DataEncoder
 from app.utility.base_world import BaseWorld
 from plugins.stockpile.app.stockpile_svc import StockpileService
 
@@ -43,4 +44,14 @@ async def enable(services):
         Obfuscator(name='steganography',
                    description='Obfuscates commands through image-based steganography',
                    module='plugins.stockpile.app.obfuscators.steganography')
+    )
+    await stockpile_svc.data_svc.store(
+        DataEncoder(name='plain-text',
+                     description='Does not encode or decode data at all, instead keeps it in plain text form',
+                     module='plugins.stockpile.app.data_encoders.plain_text')
+    )
+    await stockpile_svc.data_svc.store(
+        DataEncoder(name='base64',
+                    description='Encodes and decodes data in base64',
+                    module='plugins.stockpile.app.data_encoders.base64_basic')
     )
