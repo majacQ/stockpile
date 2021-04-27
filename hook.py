@@ -47,8 +47,8 @@ async def enable(services):
     )
     await stockpile_svc.data_svc.store(
         DataEncoder(name='plain-text',
-                     description='Does not encode or decode data at all, instead keeps it in plain text form',
-                     module='plugins.stockpile.app.data_encoders.plain_text')
+                    description='Does not encode or decode data at all, instead keeps it in plain text form',
+                    module='plugins.stockpile.app.data_encoders.plain_text')
     )
     await stockpile_svc.data_svc.store(
         DataEncoder(name='base64',
