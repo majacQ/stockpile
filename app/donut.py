@@ -10,7 +10,7 @@ async def donut_handler(services, args):
     Creates .donut files from the .donut.exe files created by the
     builder plugin
 
-    :param services: CALDERA services
+    :param services: Caldera services
     :type services: dict
     :param args: HTTP request arguments
     :type args: multidict
@@ -43,7 +43,7 @@ async def _get_exe_path(services, donut_file):
             1. 'Rubeus.donut.exe'
             2. 'Rubeus.exe'
 
-    :param services: CALDERA services
+    :param services: Caldera services
     :type services: dict
     :param donut_file: Donut filename
     :type donut_file: string
@@ -104,12 +104,11 @@ async def _get_parameters(data_svc, file_name, link_id=None):
     parameters = []
     operations = await data_svc.locate('operations', match=dict(state='running'))
     if link_id:
-        potential_links = [link for operation in operations for link in operation.chain
-                           if link.id == link_id]
+        potential_links = [link for operation in operations for link in operation.chain if link.id == link_id]
     else:
         potential_links = [link for operation in operations for link in operation.chain
-                           if not link.finish and link.ability.executor.startswith('donut')
-                           and file_name in link.ability.payloads]
+                           if not link.finish and link.executor.name.startswith('donut')
+                           and file_name in link.executor.payloads]
     if potential_links:
         link = sorted(potential_links, key=lambda l: l.decide)[0]
         operation = [operation for operation in operations if operation.has_link(link.id)][0]
